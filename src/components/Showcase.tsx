@@ -12,10 +12,10 @@ export function Showcase() {
   const lastInteraction = useRef(0)
 
   const DURATIONS: Record<View, number> = {
-    document: 11000,
-    publish: 5500,
-    ask: 5500,
-    mcps: 5500,
+    document: 7000,
+    publish: 7200,
+    ask: 9000,
+    mcps: 12000,
   }
 
   useEffect(() => {
@@ -38,16 +38,14 @@ export function Showcase() {
 
   return (
     <div className="mt-14">
-      <div className="overflow-hidden rounded-[14px] border border-black/[0.08] bg-white">
-        <TabBar
-          active={view}
-          pressed={pressedTab}
-          onSelect={selectTab}
-          paused={paused}
-          onTogglePause={() => setPaused((p) => !p)}
-          duration={DURATIONS[view]}
-        />
-      </div>
+      <TabBar
+        active={view}
+        pressed={pressedTab}
+        onSelect={selectTab}
+        paused={paused}
+        onTogglePause={() => setPaused((p) => !p)}
+        duration={DURATIONS[view]}
+      />
       <div className="mt-8">
         <BrowserMockup view={view} paused={paused} />
       </div>

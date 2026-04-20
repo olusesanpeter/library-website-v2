@@ -17,25 +17,30 @@ function useTypewriter(
   texts: string[],
   restartKey: number | string,
   paused: boolean,
-  speed = 90,
-  startDelay = 450,
+  skip: boolean,
+  speed = 160,
+  startDelay = 250,
 ): TypedCell[] {
-  const [tick, setTick] = useState<number>(-1)
+  const total = texts.reduce((s, t) => s + t.length, 0)
+  const [tick, setTick] = useState<number>(skip ? total : -1)
 
   useEffect(() => {
+    if (skip) {
+      setTick(total)
+      return
+    }
     setTick(-1)
     const t = setTimeout(() => setTick(0), startDelay)
     return () => clearTimeout(t)
-  }, [restartKey, startDelay])
+  }, [restartKey, startDelay, skip, total])
 
   useEffect(() => {
-    if (paused) return
+    if (paused || skip) return
     if (tick < 0) return
-    const total = texts.reduce((s, t) => s + t.length, 0)
     if (tick >= total) return
     const id = setTimeout(() => setTick((t) => t + 1), 1000 / speed)
     return () => clearTimeout(id)
-  }, [tick, texts, speed, paused])
+  }, [tick, texts, speed, paused, skip, total])
 
   const prefixLengths: number[] = []
   let sum = 0
@@ -84,12 +89,14 @@ export function DocumentScreen({
   press,
   restartKey = 0,
   paused = false,
+  skipAnimation = false,
 }: {
   press: string | null
   restartKey?: number
   paused?: boolean
+  skipAnimation?: boolean
 }) {
-  const t = useTypewriter(TEXTS, restartKey, paused)
+  const t = useTypewriter(TEXTS, restartKey, paused, skipAnimation)
 
   return (
     <div className="flex flex-1 gap-3 overflow-hidden p-3">
@@ -109,8 +116,10 @@ export function DocumentScreen({
           </div>
           {started(t[2]) && (
             <button
-              className="reveal inline-flex items-center gap-1.5 rounded-md bg-[#6E5DC6] px-2.5 py-1.5 text-[11.5px] leading-none font-medium text-white transition-transform duration-150"
-              style={{ transform: press === 'preview' ? 'scale(0.97)' : 'scale(1)' }}
+              key={press === 'preview' ? 'preview-pressed' : 'preview'}
+              className={`reveal inline-flex items-center gap-1.5 rounded-md bg-[#6E5DC6] px-2.5 py-1.5 text-[11.5px] leading-none font-medium text-white transition-transform duration-150 ${
+                press === 'preview' ? 'pulse-attn' : ''
+              }`}
             >
               <span>Preview</span>
               <svg width="11" height="11" viewBox="0 0 11 11" fill="none" className="block">
@@ -132,7 +141,7 @@ export function DocumentScreen({
             {/* Figma embed card */}
             {complete(t[2]) && (
               <div className="reveal mt-6 overflow-hidden rounded-xl bg-[#f3f4f6]">
-                <div className="flex items-center justify-between px-4 pt-3 pb-2.5">
+                <div className="flex items-center justify-between px-4 py-1.5">
                   <div className="flex items-center gap-2 text-[12.5px] font-medium text-[#6b7280]">
                     <FigmaLogo size={13} />
                     <span>Figma</span>
@@ -194,7 +203,7 @@ export function DocumentScreen({
             {/* Table card */}
             {complete(t[4]) && (
               <div className="reveal mt-5 overflow-hidden rounded-xl bg-[#f3f4f6]">
-                <div className="flex items-center gap-2 px-4 pt-3 pb-2.5 text-[12.5px] font-medium text-[#6b7280]">
+                <div className="flex items-center gap-2 px-4 py-1.5 text-[12.5px] font-medium text-[#6b7280]">
                   <TableGlyph />
                   <span>Table</span>
                 </div>
@@ -303,7 +312,7 @@ function DosAndDontsSection() {
       </p>
 
       <div className="mt-5 overflow-hidden rounded-xl bg-[#f3f4f6]">
-        <div className="flex items-center gap-2 px-4 pt-3 pb-2.5 text-[12.5px] font-medium text-[#6b7280]">
+        <div className="flex items-center gap-2 px-4 py-1.5 text-[12.5px] font-medium text-[#6b7280]">
           Tabs
         </div>
 

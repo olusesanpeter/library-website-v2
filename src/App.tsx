@@ -9,7 +9,7 @@ function App() {
           A home for your design system
         </h1>
 
-        <div className="mt-10 max-w-[640px] text-[22px] leading-[1.4]">
+        <div className="mt-8 max-w-[640px] text-[18px] leading-[1.5]">
           <p>
             Library helps designers and engineers document
             and publish their design systems.

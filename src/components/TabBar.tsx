@@ -24,62 +24,58 @@ export function TabBar({
   duration?: number
 }) {
   return (
-    <div>
-      <div className="flex w-full items-stretch divide-x divide-black/[0.12]">
-        {VIEWS.map((v) => {
-          const isActive = v === active
-          const isPressed = pressed === v
-          return (
-            <button
-              key={v}
-              onClick={() => onSelect(v)}
-              className="relative flex-1 text-center"
-              style={{ transform: isPressed ? 'scale(0.99)' : 'scale(1)' }}
+    <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+      {VIEWS.map((v) => {
+        const isActive = v === active
+        const isPressed = pressed === v
+        return (
+          <button
+            key={v}
+            onClick={() => onSelect(v)}
+            className="group relative flex flex-col items-start transition-opacity"
+            style={{ transform: isPressed ? 'scale(0.99)' : 'scale(1)' }}
+          >
+            <span
+              className={`text-[32px] font-medium tracking-[-0.02em] leading-[1.1] transition-colors duration-200 ${
+                isActive
+                  ? 'text-[#0f172a]'
+                  : 'text-[#9ca3af] hover:text-[#4b5563]'
+              }`}
             >
-              <div
-                className={`px-6 py-5 text-[15px] transition-colors duration-200 ${
-                  isActive
-                    ? 'font-medium text-[#111827]'
-                    : 'bg-white text-[#9ca3af] hover:text-[#4b5563]'
-                }`}
-              >
-                {LABELS[v]}
-              </div>
+              {LABELS[v]}
+            </span>
+            <span className="mt-2 block h-[2px] w-full bg-transparent">
+              {isActive && (
+                <span
+                  key={`${active}-${paused}`}
+                  className="block h-full bg-[#0f172a]"
+                  style={{
+                    animation: `progressFill ${duration}ms linear forwards`,
+                    animationPlayState: paused ? 'paused' : 'running',
+                  }}
+                />
+              )}
+            </span>
+          </button>
+        )
+      })}
 
-              {/* Progress track */}
-              <div className="relative h-[2px] bg-transparent">
-                {isActive && (
-                  <span
-                    key={`${active}-${paused}`}
-                    className="absolute top-0 left-0 h-full bg-[#111827]"
-                    style={{
-                      animation: `progressFill ${duration}ms linear forwards`,
-                      animationPlayState: paused ? 'paused' : 'running',
-                    }}
-                  />
-                )}
-              </div>
-            </button>
-          )
-        })}
-
-        <button
-          onClick={onTogglePause}
-          aria-label={paused ? 'Play animation' : 'Pause animation'}
-          className="flex w-14 shrink-0 items-center justify-center bg-white text-[#6b7280] transition-colors hover:bg-[#f3f4f6] hover:text-[#111827]"
-        >
-          {paused ? (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <path d="M3 2l9 5-9 5z" />
-            </svg>
-          ) : (
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-              <rect x="3" y="2" width="3" height="10" rx="0.5" />
-              <rect x="8" y="2" width="3" height="10" rx="0.5" />
-            </svg>
-          )}
-        </button>
-      </div>
+      <button
+        onClick={onTogglePause}
+        aria-label={paused ? 'Play animation' : 'Pause animation'}
+        className="ml-auto flex h-9 w-9 items-center justify-center rounded-full border border-black/[0.08] bg-white text-[#6b7280] transition-colors hover:bg-[#f3f4f6] hover:text-[#111827]"
+      >
+        {paused ? (
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor">
+            <path d="M3 2l9 5-9 5z" />
+          </svg>
+        ) : (
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor">
+            <rect x="3" y="2" width="3" height="10" rx="0.5" />
+            <rect x="8" y="2" width="3" height="10" rx="0.5" />
+          </svg>
+        )}
+      </button>
     </div>
   )
 }

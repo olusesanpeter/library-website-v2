@@ -65,6 +65,74 @@
   to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes attentionPulse {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 rgba(110, 93, 198, 0.55); }
+  35%  { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(110, 93, 198, 0); }
+  60%  { transform: scale(0.97); box-shadow: 0 0 0 0 rgba(110, 93, 198, 0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0 rgba(110, 93, 198, 0); }
+}
+
+.pulse-attn {
+  animation: attentionPulse 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    #eef0f3 0%,
+    #eef0f3 35%,
+    #f8f9fb 50%,
+    #eef0f3 65%,
+    #eef0f3 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    #9ca3af 0%,
+    #9ca3af 35%,
+    #0f172a 50%,
+    #9ca3af 65%,
+    #9ca3af 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 1.8s ease-in-out infinite;
+}
+
+.composer-glow {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.55 0.25 290) 30%,
+    oklch(0.5  0.28 300) 50%,
+    oklch(0.55 0.25 270) 70%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: glow-slide 4s ease-in-out infinite;
+}
+
+@keyframes glow-slide {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
 .reveal {
   animation: reveal 260ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
