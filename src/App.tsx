@@ -4,7 +4,7 @@ import { Showcase } from './components/Showcase'
 function App() {
   return (
     <>
-      <main className="min-h-screen bg-white px-[18%] pt-32 pb-32 text-black">
+      <main className="mx-auto min-h-screen max-w-[1280px] bg-white px-10 pt-32 pb-32 text-black">
         <h1 className="text-6xl font-bold tracking-[-0.02em] leading-[1.05]">
           A home for your design system
         </h1>

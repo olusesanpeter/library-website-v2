@@ -12,51 +12,39 @@ export function Sidebar({
   docMode?: boolean
 }) {
   return (
-    <aside className="flex w-[260px] shrink-0 flex-col gap-3 border-r border-black/[0.04] bg-white p-3 text-[13px] text-[#374151]">
-      <div className="flex items-center justify-between">
-        <div
-          className="flex h-8 w-8 items-center justify-center rounded-md text-white"
-          style={{
-            background:
-              'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)',
-          }}
-        >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M8 1v14M1 8h14M3 3l10 10M13 3L3 13"
-              stroke="currentColor"
-              strokeWidth="1.3"
-              strokeLinecap="round"
+    <aside className="flex w-[220px] shrink-0 flex-col gap-3 bg-[#fbfbfc] py-3 pl-3 text-[13px] text-[#374151]">
+      <nav className="flex flex-col gap-1.5">
+        {docMode ? (
+          <>
+            <NavPlaceholder width={88} />
+            <NavPlaceholder width={132} />
+            <NavPlaceholder width={108} />
+          </>
+        ) : (
+          <>
+            <NavItem
+              icon={<IconHome />}
+              label="Home"
+              active={active === 'home'}
+              pressed={press === 'home'}
             />
-          </svg>
-        </div>
-        <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f3f4f6] text-[10px] font-semibold text-[#6b7280]">
-          PO
-        </div>
-      </div>
-
-      <nav className="mt-1 flex flex-col gap-[2px]">
-        <NavItem
-          icon={<IconHome />}
-          label="Home"
-          active={active === 'home'}
-          pressed={press === 'home'}
-        />
-        <NavItem
-          icon={<IconBolt />}
-          label="Integrations"
-          active={active === 'integrations'}
-          pressed={press === 'integrations'}
-        />
-        <NavItem
-          icon={<IconGear />}
-          label="Settings"
-          active={active === 'settings'}
-          pressed={press === 'settings'}
-        />
+            <NavItem
+              icon={<IconBolt />}
+              label="Integrations"
+              active={active === 'integrations'}
+              pressed={press === 'integrations'}
+            />
+            <NavItem
+              icon={<IconGear />}
+              label="Settings"
+              active={active === 'settings'}
+              pressed={press === 'settings'}
+            />
+          </>
+        )}
       </nav>
 
-      <div className="mt-3 flex flex-col gap-2">
+      <div className="mt-3 flex flex-col overflow-hidden rounded-lg border border-black/[0.06] bg-white divide-y divide-black/[0.06]">
         <Dropdown label="Library" />
         <Dropdown label="Library's design system" bold />
       </div>
@@ -80,6 +68,17 @@ export function Sidebar({
         )}
       </div>
     </aside>
+  )
+}
+
+function NavPlaceholder({ width }: { width: number }) {
+  return (
+    <div className="flex items-center">
+      <span
+        className="h-2.5 rounded bg-[#eef0f3]"
+        style={{ width }}
+      />
+    </div>
   )
 }
 
@@ -111,8 +110,8 @@ function NavItem({
 
 function Dropdown({ label, bold }: { label: string; bold?: boolean }) {
   return (
-    <div className="flex h-10 items-center justify-between rounded-lg border border-black/[0.06] bg-white px-3">
-      <span className={bold ? 'font-semibold text-[#111827]' : 'text-[#374151]'}>
+    <div className="flex h-8 items-center justify-between px-3">
+      <span className={bold ? 'font-medium text-[#111827]' : 'text-[#374151]'}>
         {label}
       </span>
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none" className="text-[#9ca3af]">
@@ -162,14 +161,10 @@ function FolderOpen({ label }: { label: string }) {
 function DocItem({ label, active }: { label: string; active?: boolean }) {
   return (
     <div
-      className={`ml-5 flex h-8 items-center gap-2.5 rounded-md px-2 ${
+      className={`flex h-8 items-center rounded-md pr-2 pl-10 ${
         active ? 'bg-[#eef0f3] text-[#111827]' : 'text-[#4b5563]'
       }`}
     >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="text-[#9ca3af]">
-        <path d="M3 1h5l3 3v9H3V1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
-        <path d="M8 1v3h3" stroke="currentColor" strokeWidth="1.2" />
-      </svg>
       <span className={active ? 'font-medium' : ''}>{label}</span>
     </div>
   )

@@ -201,14 +201,14 @@ function DocRow({ label, active }: { label: string; active?: boolean }) {
 }
 
 function FigmaGlyph({ small }: { small?: boolean }) {
-  const s = small ? 11 : 13
+  const size = small ? 11 : 13
   return (
-    <svg width={s} height={s} viewBox="0 0 14 14" fill="none">
-      <path d="M7 7a2 2 0 100 4h-2a2 2 0 010-4 2 2 0 010-4h2a2 2 0 010 4z" fill="#a78bfa" />
-      <path d="M7 3h2a2 2 0 010 4H7V3z" fill="#f97316" />
-      <path d="M7 7a2 2 0 104 0 2 2 0 00-4 0z" fill="#2dd4bf" />
-      <path d="M3 3h2v4H3a2 2 0 010-4z" fill="#ef4444" />
-      <path d="M3 11a2 2 0 012-2h2v2a2 2 0 01-4 0z" fill="#3b82f6" />
+    <svg width={size * (38 / 57)} height={size} viewBox="0 0 38 57" fill="none">
+      <path d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z" fill="#1ABCFE" />
+      <path d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z" fill="#0ACF83" />
+      <path d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z" fill="#FF7262" />
+      <path d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z" fill="#F24E1E" />
+      <path d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z" fill="#A259FF" />
     </svg>
   )
 }

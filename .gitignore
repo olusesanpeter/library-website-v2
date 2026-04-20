@@ -28,3 +28,4 @@ dist-ssr
 *.png
 .vercel/
 .claude/
+.vercel
