@@ -97,7 +97,30 @@ export function BrowserMockup({ view, paused = false }: { view: View; paused?: b
     return () => clearInterval(id)
   }, [view, paused])
 
-  // Tilt-on-hover disabled
+  useEffect(() => {
+    const wrap = wrapRef.current
+    const tilt = tiltRef.current
+    if (!wrap || !tilt) return
+
+    const handleMove = (e: MouseEvent) => {
+      const rect = wrap.getBoundingClientRect()
+      const cx = rect.left + rect.width / 2
+      const cy = rect.top + rect.height / 2
+      const dx = (e.clientX - cx) / (rect.width / 2)
+      const dy = (e.clientY - cy) / (rect.height / 2)
+      tilt.style.transform = `rotateX(${(-dy * 3).toFixed(2)}deg) rotateY(${(dx * 3).toFixed(2)}deg)`
+    }
+    const handleLeave = () => {
+      tilt.style.transform = 'rotateX(0deg) rotateY(0deg)'
+    }
+
+    wrap.addEventListener('mousemove', handleMove)
+    wrap.addEventListener('mouseleave', handleLeave)
+    return () => {
+      wrap.removeEventListener('mousemove', handleMove)
+      wrap.removeEventListener('mouseleave', handleLeave)
+    }
+  }, [])
 
   const path = CURSOR_PATHS[view]
   const step = path[stepIdx % path.length]
@@ -121,7 +144,13 @@ export function BrowserMockup({ view, paused = false }: { view: View; paused?: b
           transition: 'transform 0.15s cubic-bezier(0.2, 0.7, 0.2, 1)',
         }}
       >
-        <div className="rounded-[18px] bg-[#f3f4f6] p-1.5">
+        <div
+          className="rounded-[18px] bg-[#f3f4f6] p-1.5"
+          style={{
+            boxShadow:
+              '0 0 0 1px rgba(15, 15, 30, 0.04), 0 1px 2px rgba(15, 15, 30, 0.06), 0 8px 16px -4px rgba(15, 15, 30, 0.08), 0 24px 48px -12px rgba(15, 15, 30, 0.18)',
+          }}
+        >
         <div
           className={`relative overflow-hidden rounded-[12px] bg-white ${showChrome ? 'ring-1 ring-black/[0.06]' : ''}`}
         >
